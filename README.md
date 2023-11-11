@@ -7,9 +7,7 @@ Its Purpose is to help with Inventory Manament and to save the user from inputti
 
 ## Screenshots
 
-
-<img width="437" alt="License Plate Screenshot 1" src="https://github.com/BrianHess213/LicensePlate/assets/109031060/112a3f15-2ce0-4ad9-a1d5-a8f7b2e49ec3">
-
+<img width="443" alt="License Plate Screenshot 2" src="https://github.com/BrianHess213/LicensePlate/assets/109031060/eeeeb4f1-b6df-4462-b259-737968c7e585">
 
 ## API Reference
 
