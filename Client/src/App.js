@@ -2,6 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, Card, Form, Container, Row, Col, Badge, Image, InputGroup, FormControl, } from 'react-bootstrap';
 import $, { data } from "jquery";
+import moment from 'moment';
 
 <script src="https://cdn.jsdelivr.net/npm/ajax-client@2.0.2/lib/ajax-client.min.js"></script>
 
@@ -19,6 +20,10 @@ function App() {
     setTimeout(PrintTimer, 100);
 
   };
+
+  $( document ).ready(function() {
+    document.getElementById("currentDate").value = new moment().format('llll'); // Sat, Nov 11, 2023 7:28 AM
+});
 
   const PrintTimer = () => {
 
@@ -78,7 +83,7 @@ function App() {
 
                   <Col>
                     <Form.Label className='mb-1'>Each's</Form.Label>
-                    <Form.Control id='caseEachID' className='text-center mb-5' type='text' placeholder='Enter Each' onChange={Controller} ></Form.Control>
+                    <Form.Control id='caseEachID' className='text-center mb-5' type='text' placeholder='Enter Each' onChange={Controller}   ></Form.Control>
                     <Image id='eachBarcode' className='img-fluid h-50 w-50' src={Controller} onChange={Controller} rounded />
 
                   </Col>
@@ -88,7 +93,7 @@ function App() {
                   <Button id='printButton' className='mb-1' onClickCapture={onClickCaptureHandler}>Print</Button>
                 </Container>
 
-                <Badge className='d-flex justify-content-center' bg="secondary" >11/10/2023</Badge>
+                <Badge id='currentDate' className='d-flex justify-content-center' bg="secondary" ></Badge>
 
               </Form.Group>
             </Form>
