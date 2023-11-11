@@ -10,7 +10,6 @@ import moment from 'moment';
 
 function App() {
 
-  const todayDate = new Date();
 
   const onClickCaptureHandler = () => {
 
@@ -22,7 +21,7 @@ function App() {
   };
 
   $( document ).ready(function() {
-    document.getElementById("currentDate").value = new moment().format('llll'); // Sat, Nov 11, 2023 7:28 AM
+    document.getElementById("currentDate").innerHTML = new moment().format('llll'); // Sat, Nov 11, 2023 8:07 AM
 });
 
   const PrintTimer = () => {
@@ -65,26 +64,26 @@ function App() {
                     <Form.Label className='mb-1'>Item Number:</Form.Label>
                     <Form.Control id='itemNumberID' className='text-center mb-1' type='text' placeholder='Enter Item Number' onChange={Controller}  ></Form.Control>
 
-                    <Image id='itemBarcode' className='img-fluid h-50 w-50' src={Controller} onChange={Controller} rounded />
+                    <Image id='itemBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterItemNumber"} onChange={Controller} rounded />
 
                   </Col>
                   <Col>
                     <Form.Label className='mb-1'>Case Count:</Form.Label>
                     <Form.Control id='caseCountID' className='text-center mb-1' type='text' placeholder='Enter Case Count' onChange={Controller}></Form.Control>
-                    <Image id='caseBarcode' className='img-fluid h-50 w-50' src={Controller} onChange={Controller} rounded />
+                    <Image id='caseBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterCaseNumber"} onChange={Controller} rounded />
 
                   </Col>
                 </Row>
 
                 <Form.Label className='mb-1'>Case QTY</Form.Label>
-                <Form.Control id='Testing' className='text-center mb-1' type='text' placeholder='Case QTY E.G. 24, 30, 48, 144' onChange={Controller} ></Form.Control>
+                <Form.Control id='Testing' className='text-center mb-1' type='text' placeholder='Case QTY' onChange={Controller} ></Form.Control>
 
                 <Row>
 
                   <Col>
                     <Form.Label className='mb-1'>Each's</Form.Label>
-                    <Form.Control id='caseEachID' className='text-center mb-5' type='text' placeholder='Enter Each' onChange={Controller}   ></Form.Control>
-                    <Image id='eachBarcode' className='img-fluid h-50 w-50' src={Controller} onChange={Controller} rounded />
+                    <Form.Control id='caseEachID' className='text-center mb-5' type='text' onChange={Controller} disabled></Form.Control>
+                    <Image id='eachBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterEachNumber"} onChange={Controller} rounded />
 
                   </Col>
                 </Row>
@@ -93,7 +92,9 @@ function App() {
                   <Button id='printButton' className='mb-1' onClickCapture={onClickCaptureHandler}>Print</Button>
                 </Container>
 
-                <Badge id='currentDate' className='d-flex justify-content-center' bg="secondary" ></Badge>
+                
+
+                <p id='currentDate' value="">Date goes here</p>
 
               </Form.Group>
             </Form>
