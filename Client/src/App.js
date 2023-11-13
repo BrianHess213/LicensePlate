@@ -38,13 +38,16 @@ function App() {
     var caseCount = document.getElementById("caseCountID").value;
     document.getElementById("caseBarcode").src = "https://barcode.orcascan.com/?data=" + caseCount;
 
-    var caseEach = document.getElementById("caseEachID").value;
-    document.getElementById("eachBarcode").src = "https://barcode.orcascan.com/?data=" + caseEach;
-
     var Calculator = document.getElementById("Testing").value;
 
     var Results = Calculator * caseCount;
     document.getElementById("caseEachID").value = Results;
+
+    Results = caseEach;
+
+    var caseEach = document.getElementById("caseEachID").value;
+    document.getElementById("eachBarcode").src = "https://barcode.orcascan.com/?data=" + caseEach;
+    
 
   }
 
