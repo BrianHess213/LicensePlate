@@ -65,7 +65,7 @@ function App() {
                 <Row>
                   <Col>
                     <Form.Label className='mb-1'>Item Number:</Form.Label>
-                    <Form.Control id='itemNumberID' className='text-center mb-1' type='text' placeholder='Enter Item Number' onChange={Controller}  ></Form.Control>
+                    <Form.Control id='itemNumberID' className='text-center mb-1' type='text' placeholder='Enter Item Number' onChange={Controller}></Form.Control>
 
                     <Image id='itemBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterItemNumber"} onChange={Controller} rounded />
 
@@ -85,19 +85,30 @@ function App() {
 
                   <Col>
                     <Form.Label className='mb-1'>Each's</Form.Label>
-                    <Form.Control id='caseEachID' className='text-center mb-5' type='text' onChange={Controller} disabled></Form.Control>
+                    <Form.Control id='caseEachID' className='text-center mb-5' type='text' onChange={Controller} disabled plaintext></Form.Control>
                     <Image id='eachBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterEachNumber"} onChange={Controller} rounded />
 
                   </Col>
                 </Row>
 
                 <Container>
-                  <Button id='printButton' className='mb-1' onClickCapture={onClickCaptureHandler}>Print</Button>
+                  <Button id='printButton' className='mb-5' onClickCapture={onClickCaptureHandler}>Print</Button>
                 </Container>
 
-                
+                <Row>
+                  <Col>
+                  <Form.Control className='text-center mb-5' placeholder='Enter Name' type='text' plaintext></Form.Control>
 
-                <p id='currentDate' value="">Date goes here</p>
+                  </Col>
+
+                  <Col>
+                  <p id='currentDate' value="">Date goes here</p>
+
+                  </Col>
+                </Row>
+
+                
+                
 
               </Form.Group>
             </Form>
