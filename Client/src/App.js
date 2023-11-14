@@ -93,21 +93,21 @@ function App() {
                   <Col>
                     <Form.Label className=''>Item Number:</Form.Label>
                     <Form.Control id='itemNumberID' name='item' className='text-center' type='text' placeholder='Enter Item Number' onBlur={formik.handleBlur} value={formik.values.item} onChange={formik.handleChange} plaintext ></Form.Control>
-                    {formik.touched.item && formik.errors.item ? <div>{formik.errors.item}</div>: null}
+                    {formik.touched.item && formik.errors.item ? <div class="text-danger">{formik.errors.item}</div>: null}
                     <Image id='itemBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterItemNumber"} onChange={formik.handleChange} rounded />
                   </Col>
 
                   <Col>
                     <Form.Label className=''>Case Count:</Form.Label>
                     <Form.Control id='caseCountID' name='case' className='text-center' type='text' placeholder='Enter Case Count' value={formik.values.case} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
-                    {formik.touched.case && formik.errors.case ? <div>{formik.errors.case}</div>: null}
+                    {formik.touched.case && formik.errors.case ? <div class="text-danger">{formik.errors.case}</div>: null}
                     <Image id='caseBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterCaseNumber"} onChange={formik.handleChange} rounded />
 
                   </Col>
         
                 <Form.Label className=''>Case QTY</Form.Label>
                 <Form.Control id='Testing' name='caseQTY' className='text-center' type='text' placeholder='Case QTY' value={formik.values.caseQTY} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext ></Form.Control>
-                {formik.touched.caseQTY && formik.errors.caseQTY ? <div>{formik.errors.caseQTY}</div>: null}
+                {formik.touched.caseQTY && formik.errors.caseQTY ? <div class="text-danger">{formik.errors.caseQTY}</div>: null}
 
                   <Col>
                     <Form.Label className=''>Eaches:</Form.Label>
@@ -125,7 +125,7 @@ function App() {
 
                     <Col>
                     <Form.Control name='userName' className='text-center' placeholder='Enter Name' type='text'value={formik.values.userName} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
-                    {formik.touched.userName && formik.errors.userName ? <div>{formik.errors.userName}</div>: null}
+                    {formik.touched.userName && formik.errors.userName ? <div class="text-danger">{formik.errors.userName}</div>: null}
                     </Col>
 
                     <Col>
