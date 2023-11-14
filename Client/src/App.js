@@ -24,31 +24,31 @@ function App() {
     const errors = {}
     if (!values.item) {
       errors.item = 'Required'
-      
-    }else if(values.item){
+
+    } else if (values.item) {
       var itemCount = document.getElementById("itemNumberID").value;
-    document.getElementById("itemBarcode").src = "https://barcode.orcascan.com/?data=" + itemCount;
+      document.getElementById("itemBarcode").src = "https://barcode.orcascan.com/?data=" + itemCount;
 
     }
 
     if (!values.case) {
       errors.case = 'Required'
-    }else if(values.case){
+    } else if (values.case) {
       var caseCount = document.getElementById("caseCountID").value;
-    document.getElementById("caseBarcode").src = "https://barcode.orcascan.com/?data=" + caseCount;
+      document.getElementById("caseBarcode").src = "https://barcode.orcascan.com/?data=" + caseCount;
 
     }
 
     if (!values.caseQTY) {
       errors.caseQTY = 'Required'
-    }else if(values.caseQTY){
+    } else if (values.caseQTY) {
       var Calculator = document.getElementById("Testing").value;
 
       var Results = Calculator * caseCount;
       document.getElementById("caseEachID").value = Results;
-  
+
       Results = caseEach;
-  
+
       var caseEach = document.getElementById("caseEachID").value;
       document.getElementById("eachBarcode").src = "https://barcode.orcascan.com/?data=" + caseEach;
 
@@ -72,7 +72,7 @@ function App() {
     onSubmit: values => {
       var div = document.getElementById('printButton');
       div.style.display = 'none';
-  
+
       setTimeout(PrintTimer, 100);
     }
   });
@@ -93,45 +93,45 @@ function App() {
                   <Col>
                     <Form.Label className=''>Item Number:</Form.Label>
                     <Form.Control id='itemNumberID' name='item' className='text-center' type='text' placeholder='Enter Item Number' onBlur={formik.handleBlur} value={formik.values.item} onChange={formik.handleChange} plaintext ></Form.Control>
-                    {formik.touched.item && formik.errors.item ? <div class="text-danger">{formik.errors.item}</div>: null}
+                    {formik.touched.item && formik.errors.item ? <div class="text-danger">{formik.errors.item}</div> : null}
                     <Image id='itemBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterItemNumber"} onChange={formik.handleChange} rounded />
                   </Col>
 
                   <Col>
                     <Form.Label className=''>Case Count:</Form.Label>
                     <Form.Control id='caseCountID' name='case' className='text-center' type='text' placeholder='Enter Case Count' value={formik.values.case} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
-                    {formik.touched.case && formik.errors.case ? <div class="text-danger">{formik.errors.case}</div>: null}
+                    {formik.touched.case && formik.errors.case ? <div class="text-danger">{formik.errors.case}</div> : null}
                     <Image id='caseBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterCaseNumber"} onChange={formik.handleChange} rounded />
 
                   </Col>
-        
-                <Form.Label className=''>Case QTY</Form.Label>
-                <Form.Control id='Testing' name='caseQTY' className='text-center' type='text' placeholder='Case QTY' value={formik.values.caseQTY} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext ></Form.Control>
-                {formik.touched.caseQTY && formik.errors.caseQTY ? <div class="text-danger">{formik.errors.caseQTY}</div>: null}
+
+                  <Form.Label className=''>Case QTY</Form.Label>
+                  <Form.Control id='Testing' name='caseQTY' className='text-center' type='text' placeholder='Case QTY' value={formik.values.caseQTY} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext ></Form.Control>
+                  {formik.touched.caseQTY && formik.errors.caseQTY ? <div class="text-danger">{formik.errors.caseQTY}</div> : null}
 
                   <Col>
                     <Form.Label className=''>Eaches:</Form.Label>
                     <Form.Control id='caseEachID' className='text-center' type='text' onChange={formik.handleChange} disabled plaintext></Form.Control>
-                    
+
                     <Container>
-                    <Image id='eachBarcode' className='img-fluid h-25 w-50' src={"https://barcode.orcascan.com/?data=EnterEachNumber"} onChange={formik.handleChange} rounded />
+                      <Image id='eachBarcode' className='img-fluid h-25 w-50' src={"https://barcode.orcascan.com/?data=EnterEachNumber"} onChange={formik.handleChange} rounded />
                     </Container>
-                    
+
 
                   </Col>
-                    <Container>
-                      <Button id='printButton' className='' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
-                    </Container>
+                  <Container>
+                    <Button id='printButton' className='' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
+                  </Container>
 
-                    <Col>
-                    <Form.Control name='userName' className='text-center' placeholder='Enter Name' type='text'value={formik.values.userName} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
-                    {formik.touched.userName && formik.errors.userName ? <div class="text-danger">{formik.errors.userName}</div>: null}
-                    </Col>
+                  <Col>
+                    <Form.Control name='userName' className='text-center' placeholder='Enter Name' type='text' value={formik.values.userName} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
+                    {formik.touched.userName && formik.errors.userName ? <div class="text-danger">{formik.errors.userName}</div> : null}
+                  </Col>
 
-                    <Col>
+                  <Col>
                     <p id='currentDate' value="">Date goes here</p>
-                    </Col>
-                    
+                  </Col>
+
                 </Row>
               </Form.Group>
             </Form>
