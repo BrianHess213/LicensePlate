@@ -1,15 +1,52 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-app.use(cors())
 
-app.get('/', (req, res) => {
-      res.send('Hello from our server!')
-})
+mongoose.connect("mongodb://localhost:27017/collectionName", {
+   useNewUrlParser: true,
+   useUnifiedTopology: true
+});
 
-app.listen(8080, () => {
-      console.log('server listening on port 8080')
-})
-// Good tutorial to finish Barcode Generator for Orca Scan
-//https://www.digitalocean.com/community/tutorials/use-expressjs-to-get-url-and-post-parameters
+const itemSchema = {
+    item: String,
+    casePackQTY: String,
+    itemGTIN: String,
+    itemUPC: String,
+    itemDescription: String,
+    itemInUse: Boolean,
+
+ }; 
+
+ const ItemSKU = mongoose.model("SKU", itemSchema);
+
+ const app = express();
+
+ app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+ app.post("/contact", function (req, res) {
+    const itemSKU = new ItemSKU({
+        email: req.body.email,
+        query: req.body.query,
+    });
+    ItemSKU.save(function (err) {
+        if (err) {
+            res.redirect("/error");
+        } else {
+            res.redirect("/thank-you");
+        }
+    });
+ });
+
+
+
+app.listen(3000, function () {
+ console.log("App listening on port 3000!");
+});
+
+//https://www.geeksforgeeks.org/how-to-connect-node-js-to-a-mongodb-database/#
+
+
