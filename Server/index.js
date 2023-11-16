@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const ejs = require("ejs"); 
 const mongoose = require("mongoose");
 
 
@@ -25,9 +26,16 @@ const itemSchema = {
 
  app.use(cors());
 app.use(bodyParser.json());
+app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 
- app.post("/contact", function (req, res) {
+app.use(express.static(__dirname + '/Client/src/AddItem')); 
+
+app.get("/addItem", function(req, res){ 
+    res.render("addItem"); 
+}); 
+
+ app.post("/addItem", function (req, res) {
     const itemSKU = new ItemSKU({
         email: req.body.email,
         query: req.body.query,
