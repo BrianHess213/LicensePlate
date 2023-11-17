@@ -4,6 +4,7 @@ import { Button, Card, Form, Container, Row, Col, Image, Bre } from 'react-boots
 import $, { data } from "jquery";
 import moment from 'moment';
 import { Formik, useFormik } from "formik"
+import Up from './components/Item';
 
 
 
@@ -80,7 +81,6 @@ function App() {
     }
   });
 
-
   return (
     <div className="App">
       <header className="App-header">
@@ -141,6 +141,8 @@ function App() {
             </Form>
           </Card>
         </Container>
+
+        <Up />
 
       </header>
     </div>
