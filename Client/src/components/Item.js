@@ -25,7 +25,7 @@ class item extends Component{
             Item SKU
             {
                 this.state.items.map(item =>(
-                    <li> Item {item.item}</li>
+                    <li> Item {item.item}, GTIN: {item.gtin}</li>
                 ))
             }
            </ul>
