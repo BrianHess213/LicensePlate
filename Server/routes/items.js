@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
     res.json([
         {
             item: '8014',
-            gtin: "hello gtin"
+            gtin: "987654321"
         },
 
         {
