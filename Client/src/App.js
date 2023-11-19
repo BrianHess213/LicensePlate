@@ -1,17 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Button, Card, Form, Container, Row, Col, Image, Bre } from 'react-bootstrap';
+import { Button, Card, Form, Container, Row, Col, Image, Nav, Navbar, NavDropdown, a } from 'react-bootstrap';
 import $, { data } from "jquery";
 import moment from 'moment';
 import { Formik, useFormik } from "formik"
 import Up from './components/Item';
 
 
-
-
-
 <script src="https://cdn.jsdelivr.net/npm/ajax-client@2.0.2/lib/ajax-client.min.js"></script>
-
 
 
 function App() {
@@ -37,14 +33,15 @@ function App() {
 
     if (!values.case) {
       errors.case = 'Required'
+
     } else if (values.case) {
       var caseCount = document.getElementById("caseCountID").value;
       document.getElementById("caseBarcode").src = "https://barcode.orcascan.com/?data=" + caseCount;
-
     }
 
     if (!values.caseQTY) {
       errors.caseQTY = 'Required'
+
     } else if (values.caseQTY) {
       var Calculator = document.getElementById("Testing").value;
 
@@ -60,8 +57,8 @@ function App() {
 
     if (!values.userName) {
       errors.userName = 'Required'
-    }
 
+    }
     return errors;
   }
 
@@ -74,10 +71,8 @@ function App() {
     },
     validate,
     onSubmit: values => {
-      var div = document.getElementById('printButton');
-      div.style.display = 'none';
+      PrintTimer();
 
-      setTimeout(PrintTimer, 100);
     }
   });
 
@@ -85,11 +80,19 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-        
+     
+ 
+        <div class="alert alert-primary d-print-none" role="alert">
+        UPDATE:
+        Added a function, so you no longer have to refresh to page to get the print button back. As it will no longer disappear once clicked. 
+        Now you will be able to print the same values multiple times until you need to change them. 
+        </div>
+
+
 
         <Container fluid className='mr-auto p-2'>
 
-          <Card className='mb-1' border='0' style={{ color: "#000" }}>
+          <Card className='mb-1' border='0' style={{ color: "#000"}}>
             <Card.Title className='fs-1'>License Plate</Card.Title>
             <Form onSubmit={formik.handleSubmit}>
               <Form.Group controlId='formLicensePlate2'>
@@ -124,7 +127,7 @@ function App() {
 
                   </Col>
                   <Container>
-                    <Button id='printButton' className='' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
+
                   </Container>
 
                   <Col>
@@ -142,7 +145,15 @@ function App() {
           </Card>
         </Container>
 
-        <Up />
+        <Button id='printButton' className='d-print-none' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
+
+
+
+        <Container className='d-print-none'>
+          <Up />
+        </Container>
+
+
 
       </header>
     </div>
