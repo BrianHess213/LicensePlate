@@ -1,12 +1,10 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Button, Card, Form, Container, Row, Col, Image, Nav, Navbar, NavDropdown, a } from 'react-bootstrap';
+import { Button, Card, Form, Container, Row, Col, Image, Nav, Navbar, NavDropdown, a, InputGroup } from 'react-bootstrap';
 import $, { data } from "jquery";
 import moment from 'moment';
 import { Formik, useFormik } from "formik"
 import ItemLookUp from './components/Item';
-
-
 
 
 
@@ -55,7 +53,6 @@ function App() {
 
       var caseEach = document.getElementById("caseEachID").value;
       document.getElementById("eachBarcode").src = "https://barcode.orcascan.com/?data=" + caseEach;
-
     }
 
     if (!values.userName) {
@@ -78,6 +75,12 @@ function App() {
 
     }
   });
+
+  function testingThings(){
+
+    let text = document.getElementById("testBarcode").value;
+    document.getElementById("pTagTesting").innerHTML = text;
+  }
 
   return (
     <div className="App">
@@ -139,7 +142,7 @@ function App() {
                   </Col>
 
                   <Col>
-                    <p id='currentDate' value="">Date goes here</p>
+                    <p id='currentDate' value="">Date goes here!</p>
                   </Col>
 
                 </Row>
@@ -148,7 +151,16 @@ function App() {
           </Card>
         </Container>
 
-        <ItemLookUp />
+    
+        <Button id='printButton' className='d-print-none' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
+
+
+        <Container className='d-print-none'>
+          <ItemLookUp />
+
+          <input id='testBarcode' onChange={testingThings} type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"></input>
+          <p id='pTagTesting'>hello</p>
+        </Container>
 
       </header>
     </div>
