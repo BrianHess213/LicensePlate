@@ -4,7 +4,10 @@ import { Button, Card, Form, Container, Row, Col, Image, Nav, Navbar, NavDropdow
 import $, { data } from "jquery";
 import moment from 'moment';
 import { Formik, useFormik } from "formik"
-import Up from './components/Item';
+import ItemLookUp from './components/Item';
+
+
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/ajax-client@2.0.2/lib/ajax-client.min.js"></script>
@@ -145,15 +148,7 @@ function App() {
           </Card>
         </Container>
 
-        <Button id='printButton' className='d-print-none' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
-
-
-
-        <Container className='d-print-none'>
-          <Up />
-        </Container>
-
-
+        <ItemLookUp />
 
       </header>
     </div>
