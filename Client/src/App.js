@@ -156,10 +156,10 @@ function App() {
 
 
         <Container className='d-print-none'>
-          <ItemLookUp />
+          
 
           <input id='testBarcode' onChange={testingThings} type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"></input>
-          <p id='pTagTesting'>hello</p>
+          <p id='pTagTesting'></p>
         </Container>
 
       </header>
