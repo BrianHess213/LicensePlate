@@ -1,10 +1,12 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Button, Card, Form, Container, Row, Col, Image, Nav, Navbar, NavDropdown, a, InputGroup } from 'react-bootstrap';
+import { Button, Card, Form, Container, Row, Col, Image} from 'react-bootstrap';
 import $, { data } from "jquery";
 import moment from 'moment';
 import { Formik, useFormik } from "formik"
-import ItemLookUp from './components/Item';
+import { useEffect, useState } from 'react';
+import axios from 'axios'
+//import item from './components/Item';
 
 
 
@@ -12,6 +14,21 @@ import ItemLookUp from './components/Item';
 
 
 function App() {
+
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    const { data } = await axios.get(`http://localhost:3001/getData`);
+    setData(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  
+
+
 
   $(document).ready(function () {
     document.getElementById("currentDate").innerHTML = new moment().format('llll'); // Sat, Nov 11, 2023 8:07 AM
@@ -130,7 +147,6 @@ function App() {
                       <Image id='eachBarcode' className='img-fluid h-25 w-50' src={"https://barcode.orcascan.com/?data=EnterEachNumber"} onChange={formik.handleChange} rounded />
                     </Container>
 
-
                   </Col>
                   <Container>
 
@@ -156,10 +172,13 @@ function App() {
 
 
         <Container className='d-print-none'>
-          
-
+    
           <input id='testBarcode' onChange={testingThings} type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"></input>
           <p id='pTagTesting'></p>
+
+          <div>
+          {JSON.stringify(data)}</div>
+
         </Container>
 
       </header>
@@ -168,3 +187,5 @@ function App() {
 }
 
 export default App;
+
+//<Button id='printButton' className='d-print-none' type='submit' onClickCapture={}>Testing Get Items</Button>

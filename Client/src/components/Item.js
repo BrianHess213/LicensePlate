@@ -21,14 +21,14 @@ class item extends Component{
     render(){
         return(
            
-           <ul>
-            Item SKU
+           <div>
+            
             {
                 this.state.items.map(item =>(
-                    <li> Item {item.item}, GTIN: {item.gtin}</li>
+                    <div> Item {item.item}, GTIN: {item.gtin}</div>
                 ))
             }
-           </ul>
+           </div>
 
         )
     }
