@@ -26,8 +26,26 @@ function App() {
     getData();
   }, []);
 
-  
 
+  function GetData() {
+
+    const formInfo = {
+      ItemNumber: "7501",
+      ItemGTIN: "987654321"
+    }
+
+    useEffect(() => {
+      fetch("/home", {
+      method: "POST",
+      header: {
+        'Content-type': "application/json"
+      },
+      body: JSON.stringify(fromInfo)
+    })
+    .then(res => res.JSON())
+    .then(data => console.log(data))
+  }, [])
+}
 
 
   $(document).ready(function () {
@@ -117,7 +135,7 @@ function App() {
 
           <Card className='mb-1' border='0' style={{ color: "#000"}}>
             <Card.Title className='fs-1'>License Plate</Card.Title>
-            <Form onSubmit={formik.handleSubmit}>
+            <Form method='POST' action='http://localhost:3001/form_post' onSubmit={formik.handleSubmit}>
               <Form.Group controlId='formLicensePlate2'>
                 <Row>
                   <Col>

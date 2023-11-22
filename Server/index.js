@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose")
-
 const { MongoClient } = require("mongodb");
-const items = require('./routes/items');
+const bodyParser = require("body-parser");
+
 
 require('dotenv').config();
 
@@ -15,8 +15,14 @@ const PORT = process.env.PORT;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/sku/items', items);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+app.get('/', (req, res) => res.render('form_post'));
+
+app.post('/form_post', (req, res) => {
+  console.log(req.body);
+})
 
 
 
@@ -55,7 +61,7 @@ async function run() {
 
       //database1.collection1.find({"Name": 7432});
 
-    const newItemNumber = 7502;
+    const newItemNumber = 8014;
 
       const findOneQuery = { "Item_Name": newItemNumber};
       
@@ -90,8 +96,6 @@ async function run() {
             ])
           });
 
-          
-          
         }
       } catch (err) {
         console.error(`Something went wrong trying to find one document: ${err}\n`);
@@ -102,4 +106,4 @@ async function run() {
   }
   run().catch(console.dir);
 
-
+  //https://res.cloudinary.com/practicaldev/image/fetch/s--cVFsg7Jn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/g0reqrmbpzmwg9kv9nv3.png
