@@ -18,12 +18,15 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => res.render('form_post'));
 
-app.post('/form_post', (req, res) => {
-  console.log(req.body);
-})
+app.get('/home', (req, res) =>{
 
+  res.json([
+    {
+      
+    }
+  ])
+});
 
 
 app.listen(PORT, function () {
@@ -61,7 +64,7 @@ async function run() {
 
       //database1.collection1.find({"Name": 7432});
 
-    const newItemNumber = 8014;
+    const newItemNumber = 7501;
 
       const findOneQuery = { "Item_Name": newItemNumber};
       
@@ -81,6 +84,8 @@ async function run() {
             const itemDescription = findOneResult.Description;
             const itemGTIN = findOneResult.Case_GTIN;
             const itemEOL = findOneResult.EOL;
+
+            
   
             //console.log(itemDescription);
 

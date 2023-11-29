@@ -6,7 +6,7 @@ import moment from 'moment';
 import { Formik, useFormik } from "formik"
 import { useEffect, useState } from 'react';
 import axios from 'axios'
-//import item from './components/Item';
+import Up from './components/ItemSKU';
 
 
 
@@ -15,38 +15,15 @@ import axios from 'axios'
 
 function App() {
 
-  const [data, setData] = useState([]);
-
-  const getData = async () => {
+ /* const getData = async () => {
     const { data } = await axios.get(`http://localhost:3001/getData`);
     setData(data);
   };
 
   useEffect(() => {
     getData();
-  }, []);
-
-
-  function GetData() {
-
-    const formInfo = {
-      ItemNumber: "7501",
-      ItemGTIN: "987654321"
-    }
-
-    useEffect(() => {
-      fetch("/home", {
-      method: "POST",
-      header: {
-        'Content-type': "application/json"
-      },
-      body: JSON.stringify(fromInfo)
-    })
-    .then(res => res.JSON())
-    .then(data => console.log(data))
-  }, [])
-}
-
+    
+  }, []);*/
 
   $(document).ready(function () {
     document.getElementById("currentDate").innerHTML = new moment().format('llll'); // Sat, Nov 11, 2023 8:07 AM
@@ -64,7 +41,6 @@ function App() {
     } else if (values.item) {
       var itemCount = document.getElementById("itemNumberID").value;
       document.getElementById("itemBarcode").src = "https://barcode.orcascan.com/?data=" + itemCount;
-
     }
 
     if (!values.case) {
@@ -79,9 +55,9 @@ function App() {
       errors.caseQTY = 'Required'
 
     } else if (values.caseQTY) {
-      var Calculator = document.getElementById("Testing").value;
+      var Calculator = document.getElementById("casePackQTY").value;
 
-      var Results = Calculator * caseCount;
+      var Results = Calculator * 48;
       document.getElementById("caseEachID").value = Results;
 
       Results = caseEach;
@@ -107,7 +83,6 @@ function App() {
     validate,
     onSubmit: values => {
       PrintTimer();
-
     }
   });
 
@@ -117,20 +92,53 @@ function App() {
     document.getElementById("pTagTesting").innerHTML = text;
   }
 
+  const [data, setData] = useState([]);
+
+  async function fetchData() {
+
+    let response = await axios.get(`http://localhost:3001/getData`);
+    let item = response.data;
+    setData(item);
+    //console.log(item[0]);
+    //const ItemSKU = item[0].Item_Name;
+    //console.log(ItemSKU);
+
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function Testing123(){
+    const ItemSKU = await data[0].Item_Name;
+    console.log(ItemSKU);
+  
+  }
+
+  console.log(Testing123.ItemSKU);
+
+  
+
+   
+
+  var options = {
+    method: 'POST',
+    url: 'http://localhost:3001/home',
+    headers: {'Content-Type': 'application/json'},
+    data: {itemNumber: formik.values.item}
+  };
+  
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+  }).catch(function (error) {
+    console.error(error);
+  });
+
   return (
     <div className="App">
       <header className="App-header">
 
      
- 
-        <div class="alert alert-primary d-print-none" role="alert">
-        UPDATE:
-        Added a function, so you no longer have to refresh to page to get the print button back. As it will no longer disappear once clicked. 
-        Now you will be able to print the same values multiple times until you need to change them. 
-        </div>
-
-
-
         <Container fluid className='mr-auto p-2'>
 
           <Card className='mb-1' border='0' style={{ color: "#000"}}>
@@ -154,7 +162,7 @@ function App() {
                   </Col>
 
                   <Form.Label className=''>Case QTY</Form.Label>
-                  <Form.Control id='Testing' name='caseQTY' className='text-center' type='text' placeholder='Case QTY' value={formik.values.caseQTY} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext ></Form.Control>
+                  <Form.Control id='casePackQTY' name='caseQTY' className='text-center' type='text' placeholder='Case QTY' value={formik.values.caseQTY} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext ></Form.Control>
                   {formik.touched.caseQTY && formik.errors.caseQTY ? <div class="text-danger">{formik.errors.caseQTY}</div> : null}
 
                   <Col>
@@ -187,15 +195,20 @@ function App() {
 
     
         <Button id='printButton' className='d-print-none' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
-
-
+      
         <Container className='d-print-none'>
     
           <input id='testBarcode' onChange={testingThings} type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"></input>
           <p id='pTagTesting'></p>
 
           <div>
-          {JSON.stringify(data)}</div>
+          {
+            JSON.stringify({})
+          }
+          </div>
+
+          <Up />
+  
 
         </Container>
 
