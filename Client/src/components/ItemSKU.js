@@ -1,29 +1,54 @@
 import { Component } from "react";
-import axios from 'axios'
-import { data } from "jquery";
+
 
 class itemsku extends Component {
 
-
-
-    render(){
-        return(
-
-        <h2> </h2>
-
-        )
+    state = {
+        skuName: [],
     }
 
+    componentDidMount() {
+
+        const newItemNumber = localStorage.getItem("itemNumber");
+
+        fetch(`http://localhost:3001/getData?itemNumber=${newItemNumber}`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ skuName: data })
+            })
+    }
+
+ 
+
+    componentDidUpdate(prevProps, prevState) {
+
+     const setTimer = setTimeout(this.fetchData, 5000);
+
+    }
     
+
+    fetchData = () => {
+        const newItemNumber = localStorage.getItem("itemNumber");
+
+        fetch(`http://localhost:3001/getData?itemNumber=${newItemNumber}`)
+            .then((res) => res.json())
+            .then((data) => {
+                this.setState({ skuName: data });
+                
+            })
+            .catch((error) => {
+                console.error("Fetch error:", error);
+            });
+    };
+
+    render() {
+
+        return (
+            <div>
+                <div>{this.state.skuName.Item_Name}</div>
+            </div>
+        )
+    }
 }
 
-console.log();
-
 export default itemsku;
-
-
-
-    
-
-
-

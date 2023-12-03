@@ -1,12 +1,14 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Button, Card, Form, Container, Row, Col, Image} from 'react-bootstrap';
+import { Button, Card, Form, Container, Row, Col, Image } from 'react-bootstrap';
 import $, { data } from "jquery";
 import moment from 'moment';
 import { Formik, useFormik } from "formik"
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios'
-import Up from './components/ItemSKU';
+import ItemSku from './components/ItemSKU';
+import CasePack from './components/CasePackQTY';
+
 
 
 
@@ -14,16 +16,6 @@ import Up from './components/ItemSKU';
 
 
 function App() {
-
- /* const getData = async () => {
-    const { data } = await axios.get(`http://localhost:3001/getData`);
-    setData(data);
-  };
-
-  useEffect(() => {
-    getData();
-    
-  }, []);*/
 
   $(document).ready(function () {
     document.getElementById("currentDate").innerHTML = new moment().format('llll'); // Sat, Nov 11, 2023 8:07 AM
@@ -43,27 +35,12 @@ function App() {
       document.getElementById("itemBarcode").src = "https://barcode.orcascan.com/?data=" + itemCount;
     }
 
-    if (!values.case) {
-      errors.case = 'Required'
-
-    } else if (values.case) {
-      var caseCount = document.getElementById("caseCountID").value;
-      document.getElementById("caseBarcode").src = "https://barcode.orcascan.com/?data=" + caseCount;
-    }
-
     if (!values.caseQTY) {
       errors.caseQTY = 'Required'
 
     } else if (values.caseQTY) {
-      var Calculator = document.getElementById("casePackQTY").value;
 
-      var Results = Calculator * 48;
-      document.getElementById("caseEachID").value = Results;
 
-      Results = caseEach;
-
-      var caseEach = document.getElementById("caseEachID").value;
-      document.getElementById("eachBarcode").src = "https://barcode.orcascan.com/?data=" + caseEach;
     }
 
     if (!values.userName) {
@@ -86,106 +63,208 @@ function App() {
     }
   });
 
-  function testingThings(){
+  // This state will hold the value from the CasePack component (returned value from the database)
+  const [casePackQty, setCasePackQty] = useState(0);
 
-    let text = document.getElementById("testBarcode").value;
-    document.getElementById("pTagTesting").innerHTML = text;
-  }
+  // This state will hold the user input value
+  const [userInput, setUserInput] = useState('');
 
-  const [data, setData] = useState([]);
+  // This state will hold the calculated value
+  const [calculatedValue, setCalculatedValue] = useState(0);
 
-  async function fetchData() {
-
-    let response = await axios.get(`http://localhost:3001/getData`);
-    let item = response.data;
-    setData(item);
-    //console.log(item[0]);
-    //const ItemSKU = item[0].Item_Name;
-    //console.log(ItemSKU);
-
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function Testing123(){
-    const ItemSKU = await data[0].Item_Name;
-    console.log(ItemSKU);
-  
-  }
-
-  console.log(Testing123.ItemSKU);
-
-  
-
-   
-
-  var options = {
-    method: 'POST',
-    url: 'http://localhost:3001/home',
-    headers: {'Content-Type': 'application/json'},
-    data: {itemNumber: formik.values.item}
+  // Function to handle a change in the CasePackQty component's value
+  const handleCasePackQtyChange = (value) => {
+    const qtyValue = Number(value); // Assuming the returned value is a string, convert it to number
+    setCasePackQty(qtyValue);
+    calculateAndSetResult(userInput, qtyValue);
   };
+
+  // Function to handle changes in the user's input value
+  const handleUserInputChange = (event) => {
+    const userValue = event.target.value;
+    setUserInput(userValue); // You'll want to validate this input if necessary
+    calculateAndSetResult(userValue, casePackQty);
+  };
+
+  // Function that calculates and sets the result
+  const calculateAndSetResult = (inputQty, packQty) => {
+    const result = Number(inputQty) * packQty;
+    setCalculatedValue(result); // Update the calculated value that will be displayed
+
+    var Results = inputQty * packQty;
+
+    document.getElementById("caseEachID").value = Results;
+
+    // This is so the Each Barcode can updat to the correct value
+    Results = caseEach;
+
+
+    var caseCount = document.getElementById("PackQTY").value;
+    document.getElementById("caseBarcode").src = "https://barcode.orcascan.com/?data=" + caseCount;
+    //console.log(caseCount);
+
+    var caseEach = document.getElementById("caseEachID").value;
+    document.getElementById("eachBarcode").src = "https://barcode.orcascan.com/?data=" + caseEach;
+
+
+  };
+
+  /*const handleSubmit = (event) => {
+    event.preventDefault(); // Prevents the default form submit action
+    //const itemNumber = formik.values.item || 7501;
+    const sharedVariable = formik.values.item || 7501;
+    console.log(sharedVariable);
+
+    
   
-  axios.request(options).then(function (response) {
-    console.log(response.data);
-  }).catch(function (error) {
-    console.error(error);
-  });
+    axios.post(`http://localhost:3001/updateItemNumber`, { newItemNumber: sharedVariable })
+      .then((response) => {
+        // Handle your response here. For example, update the state.
+        console.log('Updated item number:', response.data);
+        // Maybe update a state variable to cause a component rerender with the new data.
+      })
+      .catch((error) => {
+        console.error('Error updating item number:', error);
+      });
+  };*/
+
+
+
+  const handleSubmit = () => {
+    // Get the itemNumber from the form state, not hard-coded
+    const sku = parseInt(formik.values.item, 10)
+    const itemNumber = sku || 'defaultItemNumber';
+    console.log(typeof sku);
+
+    localStorage.setItem("itemNumber", itemNumber);
+
+
+    // Send POST request
+    axios.post('http://localhost:3001/updateItemData', { newItemNumber: itemNumber })
+      .then((postResponse) => {
+        console.log('POST response data:', postResponse.data);
+
+        // Now make the GET request
+        return axios.get(`http://localhost:3001/getData?itemNumber=${itemNumber}`);
+      })
+      .then((getResponse) => {
+        console.log('GET response data:', getResponse.data);
+
+        // Do something with the GET response data, e.g., update state, UI, etc.
+
+        // This example assumes that the state `setCasePackQty` expects the actual pack quantity,
+        // not the entire response object.
+
+        formik.values.case = 0;
+        document.getElementById("PackQTY").value = 0;
+        document.getElementById("caseEachID").value = 0;
+
+
+        if (getResponse.data && getResponse.data.Case_Pack_QTY) {
+          setCasePackQty(getResponse.data.Case_Pack_QTY);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
 
   return (
     <div className="App">
       <header className="App-header">
 
-     
+
         <Container fluid className='mr-auto p-2'>
 
-          <Card className='mb-1' border='0' style={{ color: "#000"}}>
+          <Card className='mb-5' border='0' style={{ color: "#000" }}>
             <Card.Title className='fs-1'>License Plate</Card.Title>
-            <Form method='POST' action='http://localhost:3001/form_post' onSubmit={formik.handleSubmit}>
-              <Form.Group controlId='formLicensePlate2'>
+            <Form onSubmit={formik.handleSubmit}>
+              <Form.Group>
                 <Row>
-                  <Col>
+                  
+
+
+
+
+                  
+                  <div className="row justify-content-around">
+                    <div className="col-4">
+                    <Col>
                     <Form.Label className=''>Item Number:</Form.Label>
+                    <ItemSku plaintext></ItemSku>
                     <Form.Control id='itemNumberID' name='item' className='text-center' type='text' placeholder='Enter Item Number' onBlur={formik.handleBlur} value={formik.values.item} onChange={formik.handleChange} plaintext ></Form.Control>
-                    {formik.touched.item && formik.errors.item ? <div class="text-danger">{formik.errors.item}</div> : null}
-                    <Image id='itemBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterItemNumber"} onChange={formik.handleChange} rounded />
+                    {formik.touched.item && formik.errors.item ? <div className="text-danger">{formik.errors.item}</div> : null}
                   </Col>
-
-                  <Col>
+                    </div>
+                    
+                
+                    <div className="col-4">
+                    <Col>
                     <Form.Label className=''>Case Count:</Form.Label>
-                    <Form.Control id='caseCountID' name='case' className='text-center' type='text' placeholder='Enter Case Count' value={formik.values.case} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
-                    {formik.touched.case && formik.errors.case ? <div class="text-danger">{formik.errors.case}</div> : null}
-                    <Image id='caseBarcode' className='img-fluid h-50 w-50' src={"https://barcode.orcascan.com/?data=EnterCaseNumber"} onChange={formik.handleChange} rounded />
 
+                    <Form.Control
+                      id='PackQTY'
+                      name='caseQTY'
+                      className='text-center'
+                      type='text'
+                      value={formik.values.caseQTY}
+                      onChange={(event) => {
+                        formik.handleChange(event);
+                        handleUserInputChange(event); // Call the handler here for user input changes
+                      }}
+                      onBlur={formik.handleBlur}
+                      placeholder='Enter QTY'
+                      plaintext
+                    />
+                    {formik.touched.caseQTY && formik.errors.caseQTY ? <div className="text-danger">{formik.errors.caseQTY}</div> : null}
                   </Col>
 
-                  <Form.Label className=''>Case QTY</Form.Label>
-                  <Form.Control id='casePackQTY' name='caseQTY' className='text-center' type='text' placeholder='Case QTY' value={formik.values.caseQTY} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext ></Form.Control>
-                  {formik.touched.caseQTY && formik.errors.caseQTY ? <div class="text-danger">{formik.errors.caseQTY}</div> : null}
+                    </div>
+                  </div>
 
-                  <Col>
-                    <Form.Label className=''>Eaches:</Form.Label>
-                    <Form.Control id='caseEachID' className='text-center' type='text' onChange={formik.handleChange} disabled plaintext></Form.Control>
+             
 
+                  <div className="row justify-content-around">
+                    <div className="col-4">
+                    <Image id='itemBarcode' className='img-fluid h-100 w-100' src={"https://barcode.orcascan.com/?data=EnterItemNumber"} onChange={formik.handleChange} rounded />
+                    </div>
+                    
+                
+                    <div className="col-4">
+                    <Image id='caseBarcode' className='img-fluid h-100 w-100' src={"https://barcode.orcascan.com/?data=EnterCaseNumber"} onChange={formik.handleChange} rounded />
+                    </div>
+                  </div>
+
+
+
+
+
+                    <Form.Label>Case QTY</Form.Label>
+                    <CasePack onCasePackQtyChange={handleCasePackQtyChange} />
+
+
+                    <Col>
+                      <Form.Label className=''>Eaches:</Form.Label>
+                      <Form.Control id='caseEachID' className='text-center' type='text' onChange={formik.handleChange} disabled plaintext></Form.Control>
+
+                      <Container>
+                        <Image id='eachBarcode' className='img-fluid h-25 w-50' src={"https://barcode.orcascan.com/?data=EnterEachNumber"} onChange={formik.handleChange} rounded />
+                      </Container>
+
+                    </Col>
                     <Container>
-                      <Image id='eachBarcode' className='img-fluid h-25 w-50' src={"https://barcode.orcascan.com/?data=EnterEachNumber"} onChange={formik.handleChange} rounded />
+
                     </Container>
 
-                  </Col>
-                  <Container>
+                    <Col>
+                      <Form.Control name='userName' className='text-center' placeholder='Enter Name' type='text' value={formik.values.userName} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
+                      {formik.touched.userName && formik.errors.userName ? <div className="text-danger">{formik.errors.userName}</div> : null}
+                    </Col>
 
-                  </Container>
-
-                  <Col>
-                    <Form.Control name='userName' className='text-center' placeholder='Enter Name' type='text' value={formik.values.userName} onBlur={formik.handleBlur} onChange={formik.handleChange} plaintext></Form.Control>
-                    {formik.touched.userName && formik.errors.userName ? <div class="text-danger">{formik.errors.userName}</div> : null}
-                  </Col>
-
-                  <Col>
-                    <p id='currentDate' value="">Date goes here!</p>
-                  </Col>
+                    <Col>
+                      <p id='currentDate' value="">Date goes here!</p>
+                    </Col>
 
                 </Row>
               </Form.Group>
@@ -193,22 +272,12 @@ function App() {
           </Card>
         </Container>
 
-    
-        <Button id='printButton' className='d-print-none' type='submit' onClickCapture={formik.handleSubmit}>Print</Button>
-      
-        <Container className='d-print-none'>
-    
-          <input id='testBarcode' onChange={testingThings} type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"></input>
-          <p id='pTagTesting'></p>
 
-          <div>
-          {
-            JSON.stringify({})
-          }
-          </div>
 
-          <Up />
-  
+        <Container className='d-grid gap-2 d-print-none'>
+          <Button id='printButton' className='mb-5 d-print-none btn btn-primary btn-lg ' type='submit' onClick={handleSubmit}>Get Info</Button>
+
+          <Button id='printButton' className='mb-5 d-print-none btn btn-primary btn-lg ' type='submit' onClick={formik.handleSubmit}>Print</Button>
 
         </Container>
 
