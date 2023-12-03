@@ -109,27 +109,6 @@ function App() {
 
   };
 
-  /*const handleSubmit = (event) => {
-    event.preventDefault(); // Prevents the default form submit action
-    //const itemNumber = formik.values.item || 7501;
-    const sharedVariable = formik.values.item || 7501;
-    console.log(sharedVariable);
-
-    
-  
-    axios.post(`http://localhost:3001/updateItemNumber`, { newItemNumber: sharedVariable })
-      .then((response) => {
-        // Handle your response here. For example, update the state.
-        console.log('Updated item number:', response.data);
-        // Maybe update a state variable to cause a component rerender with the new data.
-      })
-      .catch((error) => {
-        console.error('Error updating item number:', error);
-      });
-  };*/
-
-
-
   const handleSubmit = () => {
     // Get the itemNumber from the form state, not hard-coded
     const sku = parseInt(formik.values.item, 10)
@@ -140,20 +119,16 @@ function App() {
 
 
     // Send POST request
-    axios.post('http://localhost:3001/updateItemData', { newItemNumber: itemNumber })
+    axios.post('https://licenseplateserver-production.up.railway.app/updateItemData', { newItemNumber: itemNumber })
       .then((postResponse) => {
         console.log('POST response data:', postResponse.data);
 
         // Now make the GET request
-        return axios.get(`http://localhost:3001/getData?itemNumber=${itemNumber}`);
+        return axios.get(`https://licenseplateserver-production.up.railway.app/getData?itemNumber=${itemNumber}`);
       })
       .then((getResponse) => {
         console.log('GET response data:', getResponse.data);
 
-        // Do something with the GET response data, e.g., update state, UI, etc.
-
-        // This example assumes that the state `setCasePackQty` expects the actual pack quantity,
-        // not the entire response object.
 
         formik.values.case = 0;
         document.getElementById("PackQTY").value = 0;
@@ -182,11 +157,6 @@ function App() {
             <Form onSubmit={formik.handleSubmit}>
               <Form.Group>
                 <Row>
-                  
-
-
-
-
                   
                   <div className="row justify-content-around">
                     <div className="col-4">
@@ -223,8 +193,7 @@ function App() {
                     </div>
                   </div>
 
-             
-
+            
                   <div className="row justify-content-around">
                     <div className="col-4">
                     <Image id='itemBarcode' className='img-fluid h-100 w-100' src={"https://barcode.orcascan.com/?data=EnterItemNumber"} onChange={formik.handleChange} rounded />
@@ -235,9 +204,6 @@ function App() {
                     <Image id='caseBarcode' className='img-fluid h-100 w-100' src={"https://barcode.orcascan.com/?data=EnterCaseNumber"} onChange={formik.handleChange} rounded />
                     </div>
                   </div>
-
-
-
 
 
                     <Form.Label>Case QTY</Form.Label>
@@ -287,5 +253,3 @@ function App() {
 }
 
 export default App;
-
-//<Button id='printButton' className='d-print-none' type='submit' onClickCapture={}>Testing Get Items</Button>
