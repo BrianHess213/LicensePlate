@@ -18,8 +18,12 @@
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.89.0"
   },
+  "devServer": {
+    "allowedHosts": "all"
+},
   "scripts": {
     "start": "react-scripts start",
     "build": "CI=false react-scripts build",
