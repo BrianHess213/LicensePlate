@@ -9,7 +9,7 @@ class CasePack extends Component {
 
     const newItemNumber = localStorage.getItem("itemNumber");
 
-    fetch(`https://licenseplateserver-production.up.railway.app/getData?itemNumber=${newItemNumber}`)
+    fetch(`/getData?itemNumber=${newItemNumber}`)
       .then(res => res.json())
       .then(data => {
         // Check if data has the property 'Case_Pack_QTY'
@@ -34,7 +34,7 @@ class CasePack extends Component {
   fetchData = () => {
     const newItemNumber = localStorage.getItem("itemNumber");
 
-    fetch(`https://licenseplateserver-production.up.railway.app/getData?itemNumber=${newItemNumber}`)
+    fetch(`/getData?itemNumber=${newItemNumber}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ casePackQTY: data.Case_Pack_QTY });

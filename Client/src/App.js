@@ -119,12 +119,12 @@ function App() {
 
 
     // Send POST request
-    axios.post('https://licenseplateserver-production.up.railway.app/updateItemData', { newItemNumber: itemNumber })
+    axios.post('/updateItemData', { newItemNumber: itemNumber })
       .then((postResponse) => {
         console.log('POST response data:', postResponse.data);
 
         // Now make the GET request
-        return axios.get(`https://licenseplateserver-production.up.railway.app/getData?itemNumber=${itemNumber}`);
+        return axios.get(`/getData?itemNumber=${itemNumber}`);
       })
       .then((getResponse) => {
         console.log('GET response data:', getResponse.data);
