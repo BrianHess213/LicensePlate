@@ -117,14 +117,16 @@ function App() {
 
     localStorage.setItem("itemNumber", itemNumber);
 
+    const baseUrl = "https://licenseplateserver-production.up.railway.app";
+
 
     // Send POST request
-    axios.post('/updateItemData', { newItemNumber: itemNumber })
+    axios.post(`${baseUrl}/updateItemData`, { newItemNumber: itemNumber })
       .then((postResponse) => {
         console.log('POST response data:', postResponse.data);
 
         // Now make the GET request
-        return axios.get(`/getData?itemNumber=${itemNumber}`);
+        return axios.get(`${baseUrl}/getData?itemNumber=${itemNumber}`);
       })
       .then((getResponse) => {
         console.log('GET response data:', getResponse.data);

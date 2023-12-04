@@ -8,10 +8,11 @@ class itemsku extends Component {
     }
 
     componentDidMount() {
+        const baseUrl = "https://licenseplateserver-production.up.railway.app";
 
         const newItemNumber = localStorage.getItem("itemNumber");
 
-        fetch(`/getData?itemNumber=${newItemNumber}`)
+        fetch(`${baseUrl}/getData?itemNumber=${newItemNumber}`)
             .then(res => res.json())
             .then(data => {
                 this.setState({ skuName: data })
@@ -28,9 +29,10 @@ class itemsku extends Component {
     
 
     fetchData = () => {
+        const baseUrl = "https://licenseplateserver-production.up.railway.app";
         const newItemNumber = localStorage.getItem("itemNumber");
 
-        fetch(`/getData?itemNumber=${newItemNumber}`)
+        fetch(`${baseUrl}/getData?itemNumber=${newItemNumber}`)
             .then((res) => res.json())
             .then((data) => {
                 this.setState({ skuName: data });
