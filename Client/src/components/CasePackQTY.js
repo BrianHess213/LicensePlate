@@ -6,7 +6,7 @@ class CasePack extends Component {
   };
 
   componentDidMount() {
-    const baseUrl = "https://licenseplateserver-production.up.railway.app";
+    const baseUrl = "https://licenseplate-server.onrender.com";
 
     const newItemNumber = localStorage.getItem("itemNumber");
 
@@ -33,7 +33,7 @@ class CasePack extends Component {
   }
 
   fetchData = () => {
-    const baseUrl = "https://licenseplateserver-production.up.railway.app";
+    const baseUrl = "https://licenseplate-server.onrender.com";
     const newItemNumber = localStorage.getItem("itemNumber");
 
     fetch(`${baseUrl}/getData?itemNumber=${newItemNumber}`)

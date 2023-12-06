@@ -117,7 +117,7 @@ function App() {
 
     localStorage.setItem("itemNumber", itemNumber);
 
-    const baseUrl = "https://licenseplateserver-production.up.railway.app";
+    const baseUrl = "https://licenseplate-server.onrender.com/";
 
 
     // Send POST request
