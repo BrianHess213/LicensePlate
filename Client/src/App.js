@@ -165,7 +165,7 @@ function App() {
                     <Col>
                     <Form.Label className=''>Item Number:</Form.Label>
                     <ItemSku plaintext></ItemSku>
-                    <Form.Control id='itemNumberID' name='item' className='text-center' type='text' placeholder='Enter Item Number' onBlur={formik.handleBlur} value={formik.values.item} onChange={formik.handleChange} plaintext ></Form.Control>
+                    <Form.Control id='itemNumberID' name='item' className='text-center' type='text' placeholder='Enter GTIN Number' onBlur={formik.handleBlur} value={formik.values.item} onChange={formik.handleChange} plaintext ></Form.Control>
                     {formik.touched.item && formik.errors.item ? <div className="text-danger">{formik.errors.item}</div> : null}
                   </Col>
                     </div>
