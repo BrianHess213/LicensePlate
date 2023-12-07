@@ -115,9 +115,12 @@ function App() {
     const itemNumber = sku || 'defaultItemNumber';
     console.log(typeof sku);
 
-    localStorage.setItem("itemNumber", itemNumber);
+    const oldItem = 0;
 
-    const baseUrl = "https://licenseplate-server.onrender.com/";
+    localStorage.setItem("currentItemNumber", itemNumber);
+    localStorage.setItem("oldItemNumber", oldItem);
+
+    const baseUrl = "https://licenseplate-server.onrender.com";
 
 
     // Send POST request

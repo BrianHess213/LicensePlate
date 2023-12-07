@@ -6,28 +6,11 @@ class CasePack extends Component {
   };
 
   componentDidMount() {
-    const baseUrl = "https://licenseplate-server.onrender.com";
+    this.fetchData();
 
-    const newItemNumber = localStorage.getItem("itemNumber");
-
-    fetch(`${baseUrl}/getData?itemNumber=${newItemNumber}`)
-      .then(res => res.json())
-      .then(data => {
-        // Check if data has the property 'Case_Pack_QTY'
-        if (data && data.hasOwnProperty('Case_Pack_QTY')) {
-          this.setState({ casePackQTY: data.Case_Pack_QTY });
-          if (typeof this.props.onCasePackQtyChange === 'function') {
-            this.props.onCasePackQtyChange(data.Case_Pack_QTY);
-          }
-        } else {
-          console.error('Unexpected Data Structure:', data);
-        }
-      });
   }
 
   componentDidUpdate(prevProps, prevState) {
-
-    const setTimer = setTimeout(this.fetchData, 5000);
 
 
   }

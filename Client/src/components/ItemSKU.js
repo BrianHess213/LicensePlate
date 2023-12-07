@@ -3,39 +3,37 @@ import { Component } from "react";
 
 class itemsku extends Component {
 
-    state = {
-        skuName: [],
+    constructor(){
+        super();
+        this.state = {
+            skuName: [],
+        };
     }
 
+
+   
     componentDidMount() {
-        const baseUrl = "https://licenseplate-server.onrender.com";
-
-        const newItemNumber = localStorage.getItem("itemNumber");
-
-        fetch(`${baseUrl}/getData?itemNumber=${newItemNumber}`)
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ skuName: data })
-            })
+     this.fetchData();
     }
 
  
 
     componentDidUpdate(prevProps, prevState) {
-
-     const setTimer = setTimeout(this.fetchData, 5000);
-
+      
     }
-    
+
 
     fetchData = () => {
         const baseUrl = "https://licenseplate-server.onrender.com";
         const newItemNumber = localStorage.getItem("itemNumber");
 
+  
         fetch(`${baseUrl}/getData?itemNumber=${newItemNumber}`)
             .then((res) => res.json())
             .then((data) => {
                 this.setState({ skuName: data });
+
+                
                 
             })
             .catch((error) => {
